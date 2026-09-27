@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Aplicações Gulosas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #d32f2f;
+            margin-top: 0;
+        }
+        p {
+            line-height: 1.6;
+        }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #0078d4;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 15px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #005a9e;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Loop de Apps Gulosas (Windows)</h1>
+    <p>Este ambiente simula o comportamento de scripts Batch (<code>.bat</code>) utilizados para testar o stress de memória no Windows ao abrir instâncias contínuas do navegador.</p>
+    
+    <h3>Código do Script Gerado:</h3>
+    <pre><code>@echo off
+title Teste de Stress - Apps Gulosas
+:loop
+echo Abrindo instancia gulosa...
+start chrome.exe --new-window "https://google.com"
+timeout /t 2 >nul
+goto loop</code></pre>
+
+    <div class="warning">
+        <strong>Aviso de Segurança:</strong> O script acima possui uma salvaguarda (pausa de 2 segundos) para evitar o travamento imediato do sistema. Use apenas para fins didáticos.
+    </div>
+
+    <!-- Botão que gera e descarrega o ficheiro .bat instantaneamente -->
+    <button class="btn" onclick="descarregarBat()">Descarregar gerar_exe.bat</button>
+</div>
+
+<script>
+function descarregarBat() {
+    // Conteúdo do ficheiro batch adaptado
+    const codigoBat = "@echo off\r\n" +
+                      "title Teste de Stress - Apps Gulosas\r\n" +
+                      ":loop\r\n" +
+                      "echo Abrindo instancia gulosa...\r\n" +
+                      "start chrome.exe --new-window \"https://google.com\"\r\n" +
+                      "timeout /t 2 >nul\r\n" +
+                      "goto loop";
+
+    // Criar um blob com o texto codificado em formato aceito pelo Windows (Windows-1252/ANSI ou UTF-8)
+    const blob = new Blob([codigoBat], { type: 'text/plain;charset=utf-8' });
+    
+    // Criar um link temporário para o download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'gerar_exe.bat'; // Nome do ficheiro que será guardado
+    
+    // Simular o clique e remover o link
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+
+</body>
+</html>
